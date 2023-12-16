@@ -45,16 +45,16 @@ typedef struct bus_s
 extern bus_t bus;
 
 /**
- * struct _opcode_t - opcode and and its function
+ * struct instruction_s - opcode and and its function
  * @opcode: the opcode
  * @func: function for the opcode
  * Description: opcode and its function for stck and queues
  */
-typedef struct _opcode_s
+typedef struct instruction_s
 {
 	char *opcode;
-	void (*func) (stack_t **stack, unsigned int line_number);
-} _opcode_t;
+	void (*f)(stack_t **stack, unsigned int line_number);
+} instruction_t;
 
 int main(int argc, char *argv[]);
 void push_element(stack_t **head, unsigned int counter);

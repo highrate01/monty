@@ -9,7 +9,7 @@
  */
 int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 {
-	_opcode_t opst[] = {
+	instruction_t opst[] = {
 		{"push", push_element},
 		{"pall", pall_func},
 		{"pint", pint_func},
@@ -41,7 +41,7 @@ int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 	{
 		if (strcmp(op, opst[i].opcode) == 0)
 		{
-			opst[i].func(stack, counter);
+			opst[i].f(stack, counter);
 			return (0);
 		}
 		i++;
