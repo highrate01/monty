@@ -5,16 +5,16 @@
  * @head: pointer to the first node
  * Return: nothing
  */
-void free_stack(stack_t *head)
+void free_stack(stack_t *stack)
 {
 	stack_t *aux;
 
-	aux = head;
-	while (head != NULL)
+	aux = stack;
+	while (stack != NULL)
 	{
-		aux = head->next;
-		free(head);
-		head = aux;
+		aux = stack->next;
+		free(stack);
+		stack = aux;
 	}
 }
 

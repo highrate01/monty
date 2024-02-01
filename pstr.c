@@ -3,16 +3,16 @@
 /**
  * pstr_func - prints string at the top of stack
  *
- * @head: double pointer to the stack
- * @counter: line number
+ * @stack: double pointer to the stack
+ * @line_number: line number
  * Return: nothin
  */
-void pstr_func(stack_t **head, unsigned int counter)
+void pstr_func(stack_t **stack, unsigned int line_number)
 {
 	stack_t *h;
-	(void) counter;
+	(void) line_number;
 
-	h = *head;
+	h = *stack;
 	while (h != NULL)
 	{
 		if (h->n > 127 || h->n <= 0)

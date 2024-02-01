@@ -3,42 +3,22 @@
 /**
  * div_func - divides the top two elements of the stack
  *
- * @head: doubly pointer to the stack
- * @counter: line number
+ * @stack: doubly pointer to the stack
+ * @line_number: line number
  * Return: no return
  */
-void div_func(stack_t **head, unsigned int counter)
+void div_func(stack_t **stack, unsigned int line_number)
 {
-	stack_t *h;
-	int len = 0, aux;
-
-	h = *head;
-	while (h != NULL)
+	if (!*stack || !(*stack)->next)
 	{
-		h = h->next;
-		len++;
-	}
-	if (len < 2)
-	{
-		fprintf(stderr, "L%d: Can't div, stack too short\n", counter);
-
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	h = *head;
-	if (h->n == 0)
+	if ((*stack)->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", counter);
-
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: division by zero\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	aux = h->next->n / h->n;
-	h->next->n = aux;
-	*head = h->next;
-	free(h);
+	(*stack)->next->n /= (*stack)->n;
+	pop_func(stack, line_number);
 }

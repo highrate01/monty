@@ -4,31 +4,23 @@
  * pchar_func - prints the char at the top of the stack,
  * followed by a new line
  *
- * @head: double pointerto the linked list
- * @counter: line number
+ * @stack: double pointerto the linked list
+ * @line_number: line number
  * Return: nothing
  */
 
-void pchar_func(stack_t **head, unsigned int counter)
+void pchar_func(stack_t **stack, unsigned int line_number)
 {
-	stack_t *h;
+	stack_t *h = *stack;
 
-	h = *head;
 	if (h == NULL)
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", counter);
-
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	if (h->n > 127 || h->n < 0)
 	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", counter);
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	printf("%c\n", h->n);

@@ -2,27 +2,23 @@
 /**
  * pop_func -to delete from the stack
  *
- * @head: double pointer to the first node on the
+ * @stack: double pointer to the first node on the
  * stack
- * @counter: line number
+ * @line_number: line number
  */
-void pop_func(stack_t **head, unsigned int counter)
+void pop_func(stack_t **stack, unsigned int line_number)
 {
-	stack_t *h;
+	stack_t *temp;
 
-	if (*head == NULL)
+	if (*stack != NULL)
 	{
-		fprintf(stderr, "L%d: Can't pop an empty stack\n", counter);
-
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		temp = *stack;
+		*stack = (*stack)->next;
+		free(temp);
+	}
+	else
+	{
+		fprintf(stderr, "L%d: Can't pop an empty stack\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	h = *head;
-	*head = h->next;
-
-	if (*head != NULL)
-		(*head)->prev = NULL;
-	free(h);
 }

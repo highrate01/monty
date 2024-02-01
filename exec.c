@@ -19,8 +19,8 @@ int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 		{"nop", nop_func},
 		{"sub", sub_func},
 		{"div", div_func},
-		{"mul", mull_func},
-		{"mod", modification},
+		{"mul", mul_func},
+		{"mod", mod_func},
 		{"pchar", pchar_func},
 		{"pstr", pstr_func},
 		{"rotl", rotl_func},
@@ -36,7 +36,7 @@ int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 	op = strtok(content, "\n\t ");
 	if (op && op[0] == '#')
 		return (0);
-	bus.arg = strtok(NULL, "\n\t ");
+	op = strtok(NULL, "\n\t ");
 	while (opst[i].opcode != NULL && op != NULL)
 	{
 		if (strcmp(op, opst[i].opcode) == 0)

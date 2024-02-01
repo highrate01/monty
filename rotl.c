@@ -2,22 +2,22 @@
 
 /**
  * rotl_func - rotates the stack to the top
- * @head: double pointer to the stack
- * @counter: line number
+ * @stack: double pointer to the stack
+ * @line_number: line number
  * Return: nothing
  */
-void rotl_func(stack_t **head, __attribute__((unused))unsigned int counter)
+void rotl_func(stack_t **stack, __attribute__((unused))unsigned int line_number)
 {
-	stack_t *tmp = *head, *aux;
+	stack_t *tmp = *stack, *aux;
 
-	if (*head == NULL || (*head)->next == NULL)
+	if (*stack == NULL || (*stack)->next == NULL)
 		return;
-	aux = (*head)->next;
+	aux = (*stack)->next;
 	aux->prev = NULL;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
-	tmp->next = *head;
-	(*head)->next = NULL;
-	(*head)->prev = tmp;
-	(*head) = aux;
+	tmp->next = *stack;
+	(*stack)->next = NULL;
+	(*stack)->prev = tmp;
+	(*stack) = aux;
 }

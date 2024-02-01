@@ -7,7 +7,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <ctype.h>
-#define MAX_LINE_SIZE 1024
+
 
 /**
  * struct stack_s - doubly linked list for stacks and queues
@@ -26,24 +26,7 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-/**
- * struct carrier_s - it is a struct type that contains
- * variables
- * @num: reps values
- * @nodes: pointer to nodes in the files
- * @content: line content
- * @lifi: flag change stack queue
- * Description: carries values trough the program
- */
-typedef struct bus_s
-{
-	FILE *file;
-	char *arg;
-	char *content;
-	int lifi;
-} bus_t;
-extern bus_t bus;
-
+stack_t *global;
 /**
  * struct instruction_s - opcode and and its function
  * @opcode: the opcode
@@ -57,26 +40,28 @@ typedef struct instruction_s
 } instruction_t;
 
 int main(int argc, char *argv[]);
-void push_element(stack_t **head, unsigned int counter);
-void add_queue(stack_t **head, int n);
-void queue_func(__attribute__((unused))stack_t **head, __attribute__((unused))unsigned int count);
-void free_stack(stack_t *head);
-void pop_func(stack_t **head, unsigned int counter);
-void add_func(stack_t **head, unsigned int counter);
+void push_element(stack_t **stack, unsigned int line_number);
+void add_queue(stack_t **stack, int n);
+void queue_func(__attribute__((unused))stack_t **stack, __attribute__((unused))unsigned int line_number);
+void free_stack(stack_t *stack);
+void pop_func(stack_t **stack, unsigned int line_number);
+void add_func(stack_t **stack, unsigned int line_number);
 int exec(char *content, stack_t **stack, unsigned int counter, FILE *file);
-void pall_func(stack_t **head, unsigned int counter);
-void div_func(stack_t **head, unsigned int counter);
-void nop_func(stack_t **head, unsigned int counter);
-void pchar_func(stack_t **head, unsigned int counter);
-void pstr_func(stack_t **head, unsigned int counter);
-void rotr_func(stack_t **head, __attribute__((unused))unsigned int counter);
-void stack_func(stack_t **head, unsigned int counter);
-void pint_func(stack_t **head, unsigned int counter);
-void swap_func(stack_t **head, unsigned int counter);
-void add_node(stack_t **head, int n);
-void rotl_func(stack_t **head, __attribute__((unused))unsigned int counter);
-void modification(stack_t **head, unsigned int counter);
-void sub_func(stack_t **head, unsigned int counter);
-void mull_func(stack_t **head, unsigned int counter);
-
+void pall_func(stack_t **stack, unsigned int line_number);
+void div_func(stack_t **stack, unsigned int line_number);
+void nop_func(stack_t **stack, unsigned int line_number);
+void pchar_func(stack_t **stack, unsigned int line_number);
+void pstr_func(stack_t **stack, unsigned int line_number);
+void rotr_func(stack_t **stack, __attribute__((unused))unsigned int line_number);
+void stack_func(stack_t **stack, unsigned int line_number);
+void pint_func(stack_t **stack, unsigned int line_number);
+void swap_func(stack_t **stack, unsigned int line_number);
+void add_node(stack_t **stack, int n);
+void rotl_func(stack_t **stack, __attribute__((unused))unsigned int line_number);
+void mod_func(stack_t **stack, unsigned int line_number);
+void sub_func(stack_t **stack, unsigned int line_number);
+void mul_func(stack_t **stack, unsigned int line_number);
+int _atoi(char *s);
+int _strcmp(char *s1, char *s2);
+void _comment(const char *line);
 #endif /*MAIN_H*/

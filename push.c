@@ -2,46 +2,49 @@
 
 /**
  * push_element - add element to the stack
- * @head: pointer to the first element
- * @counter: count
+ * @stack: pointer to the first element
+ * @line_number: count
  * Return: no return
  */
-void push_element(stack_t **head, unsigned int counter)
+void push_element(stack_t **stack, unsigned int line_number)
 {
-	int i, j = 0, flag = 0;
+	const char *line = NULL;
+	int num;
+	char *token;
+	stack_t *new_node;
 
-	if (bus.arg)
+	char *line_copy = strdup(line);
+	token = strtok(line_copy, " ");
+	if (token == NULL)
 	{
-		if (bus.arg[0] == '-')
-			j++;
-		for (; bus.arg[j] != '\0'; j++)
-		{
-			if (bus.arg[j] > 57 || bus.arg[j] < 48)
-				flag = 1;
-		}
-		if (flag == 1)
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", counter);
-
-			fclose(bus.file);
-			free(bus.content);
-			free_stack(*head);
-			exit(EXIT_FAILURE);
-		}
-	}
-
-	else
-	{
-		fprintf(stderr, "L%d: usage: push integer", counter);
-		fclose(bus.file);
-		free(bus.content);
-		free_stack(*head);
+		fprintf(stderr, "Error: Invalid input\n");
 		exit(EXIT_FAILURE);
 	}
-
-	i = atoi(bus.arg);
-	if (bus.lifi == 0)
-	add_node(head, i);
-	else
-		add_queue(head, i);
+	if (_strcmp(token, "push") != 0)
+	{
+		fprintf(stderr, "Error: Expected 'push' keyword\n");
+		exit(EXIT_FAILURE);
+	}
+	token = strtok(NULL, " ");
+	if (token == NULL)
+	{
+		fprintf(stderr, "L%d: usage: push integer", line_number);
+		exit(EXIT_FAILURE);
+	}
+	num = _atoi(token);
+	if (num == 0 && *token != '0')
+	{
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+	new_node = (stack_t *) malloc(sizeof(stack_t));
+	if (new_node == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+	new_node->n = num;
+	new_node->next = *stack;
+	*stack = new_node;
+	free(line_copy);
 }

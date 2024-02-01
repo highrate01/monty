@@ -2,12 +2,12 @@
 
 /**
  * nop_func - doesn’t do anything
- * @head: double pointer to the stack head
- * @counter: line number
+ * @stack: double pointer to the stack head
+ * @line_number: line number
  * Return: nothin
  */
-void nop_func(stack_t **head, unsigned int counter)
+void nop_func(stack_t **stack, unsigned int line_number)
 {
-	(void) counter;
-	(void) head;
+	(void) line_number;
+	(void) stack;
 }

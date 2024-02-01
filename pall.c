@@ -2,16 +2,16 @@
 
 /**
  * pall_func - prints the stack
- * @head: double pointer to first element on stack
- * @counter: line number
+ * @stack: double pointer to first element on stack
+ * @line_number: line number
  * Return: no return
  */
-void pall_func(stack_t **head, unsigned int counter)
+void pall_func(stack_t **stack, unsigned int line_number)
 {
 	stack_t *h;
-	(void) counter;
+	(void) line_number;
 
-	h = *head;
+	h = *stack;
 	if (h == NULL)
 		return;
 	while (h != NULL)
