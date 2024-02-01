@@ -14,6 +14,7 @@ void push_element(stack_t **stack, unsigned int line_number)
 	stack_t *new_node;
 
 	char *line_copy = strdup(line);
+
 	token = strtok(line_copy, " ");
 	if (token == NULL)
 	{
@@ -28,13 +29,13 @@ void push_element(stack_t **stack, unsigned int line_number)
 	token = strtok(NULL, " ");
 	if (token == NULL)
 	{
-		fprintf(stderr, "L%d: usage: push integer", line_number);
+		fprintf(stderr, "L%u: usage: push integer", line_number);
 		exit(EXIT_FAILURE);
 	}
 	num = _atoi(token);
 	if (num == 0 && *token != '0')
 	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	new_node = (stack_t *) malloc(sizeof(stack_t));

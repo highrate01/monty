@@ -9,6 +9,7 @@
  */
 int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 {
+	size_t i;
 	instruction_t opst[] = {
 		{"push", push_element},
 		{"pall", pall_func},
@@ -25,34 +26,19 @@ int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
 		{"pstr", pstr_func},
 		{"rotl", rotl_func},
 		{"rotr", rotr_func},
-		{"stack", stack_func},
-		{"queue", queue_func},
+		{"stack", _stack},
+		{"queue", _queue},
 		{NULL, NULL}
 	};
-	
-	char *op;
-	unsigned int i = 0;
 
-	op = strtok(content, "\n\t ");
-	if (op && op[0] == '#')
-		return (0);
-	op = strtok(NULL, "\n\t ");
-	while (opst[i].opcode != NULL && op != NULL)
+	for (i = 0; opst[i].opcode != NULL; i++)
 	{
-		if (strcmp(op, opst[i].opcode) == 0)
+		if (strcmp(opst[i].opcode, content) == 0)
 		{
-			opst[i].f(stack, counter);
-			return (0);
+			opst[i].f(stack, line_number);
+			return;
 		}
-		i++;
 	}
-	if (op != NULL && opst[i].opcode == NULL)
-	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", counter, op);
-		fclose(file);
-		free(content);
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
-	}
-	return (1);
+	fprintf(stderr, "L%u: unknown instructions %s\n", line_number, content);
+	exit(EXIT_FAILURE);
 }

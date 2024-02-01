@@ -9,10 +9,13 @@
 int main(int argc, char *argv[])
 {
 	unsigned int counter = 0;
-	char *line = NULL;
-	size_t len = 0;
-	FILE *file;
+	char *line = NULL, *opst = NULL;
+	size_t n = 0;
+	FILE *file = NULL;
+	stack_t *stack = NULL;
 
+	var.queue = 0;
+	var.len = 0;
 	if (argc != 2)
 	{
 		fprintf(stderr, "usage: monty file\n");
@@ -26,7 +29,12 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	while (getline(&line, &len, file) != -1)
+	{
 		counter++;
+		opst = strtok(&line, "\n\t\r ");
+		if (opst != NULL && opst[0] != '#')
+			exec(opst, &stack, counter);
+	}
 	if (ferror(file))
 	{
 		perror("Error reading file");
@@ -34,6 +42,6 @@ int main(int argc, char *argv[])
 	}
 	free(line);
 	fclose(file);
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 

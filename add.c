@@ -9,11 +9,14 @@
  */
 void add_func(stack_t **stack, unsigned int line_number)
 {
-	if (!*stack || !(*stack)->next)
+	int n = 0;
+
+	if (var.len < 2)
 	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*stack)->next->n += (*stack)->n;
+	n += (*stack)->n;
 	pop_func(stack, line_number);
+	(*stack)->n += n;
 }
