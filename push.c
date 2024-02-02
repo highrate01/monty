@@ -1,4 +1,22 @@
 #include "monty.h"
+/**
+ * check_digit - check for digit
+ * @str: pointer to string
+ * Return: 0 if true, otherwise 1
+ */
+static int check_digit(char *str)
+{
+	int j;
+
+	for (j = 0; str[j]; j++)
+	{
+		if (str[j] == '-' && j == 0)
+			continue;
+		if (isdigit(str[j]) == 0)
+			return (1);
+	}
+	return (0);
+}
 
 /**
  * push_element - add element to the stack
@@ -8,44 +26,20 @@
  */
 void push_element(stack_t **stack, unsigned int line_number)
 {
-	const char *line = NULL;
-	int num;
-	char *token;
-	stack_t *new_node;
+	char *line;
+	int n;
 
-	char *line_copy = strdup(line);
-
-	token = strtok(line_copy, " ");
-	if (token == NULL)
+	line = strtok(NULL, "\n\t\r ");
+	if (line == NULL || check_digit(line))
 	{
-		fprintf(stderr, "Error: Invalid input\n");
+		dprintf(STDOUT_FILENO, "L%u: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
-	if (_strcmp(token, "push") != 0)
+	n = atoi(line);
+	if (!add_node(stack, n))
 	{
-		fprintf(stderr, "Error: Expected 'push' keyword\n");
+		dprintf(STDOUT_FILENO, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(NULL, " ");
-	if (token == NULL)
-	{
-		fprintf(stderr, "L%u: usage: push integer", line_number);
-		exit(EXIT_FAILURE);
-	}
-	num = _atoi(token);
-	if (num == 0 && *token != '0')
-	{
-		fprintf(stderr, "L%u: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	new_node = (stack_t *) malloc(sizeof(stack_t));
-	if (new_node == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	new_node->n = num;
-	new_node->next = *stack;
-	*stack = new_node;
-	free(line_copy);
+	var.len++;
 }

@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (getline(&line, &len, file) != -1)
+	while (getline(&line, &n, file) != -1)
 	{
 		counter++;
-		opst = strtok(&line, "\n\t\r ");
+		opst = strtok(line, "\n\t\r ");
 		if (opst != NULL && opst[0] != '#')
 			exec(opst, &stack, counter);
 	}

@@ -7,7 +7,7 @@
  * @content: line number
  * Return: int
  */
-int exec(char *content, stack_t **stack, unsigned int counter, FILE *file)
+void exec(char *content, stack_t **stack, unsigned int line_number, FILE *file)
 {
 	size_t i;
 	instruction_t opst[] = {

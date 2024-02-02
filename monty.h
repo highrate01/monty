@@ -61,7 +61,8 @@ void _fclose(int current, void *head)
 void free_stack(int current, void *head);
 void pop_func(stack_t **stack, unsigned int line_number);
 void add_func(stack_t **stack, unsigned int line_number);
-int exec(char *content, stack_t **stack, unsigned int counter, FILE *file);
+void exec(char *content, stack_t **stack, unsigned int counter, FILE *file);
+static int check_digit(char *str);
 void pall_func(stack_t **stack, unsigned int line_number);
 void div_func(stack_t **stack, unsigned int line_number);
 void nop_func(stack_t **stack, unsigned int line_number);
