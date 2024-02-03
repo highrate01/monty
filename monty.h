@@ -1,5 +1,5 @@
-#ifndef MONTY_H
-#define MONTY_H
+#ifndef _MONTY_H_
+#define _MONTY_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,4 +80,4 @@ void mul_func(stack_t **stack, unsigned int line_number);
 int _atoi(char *s);
 int _strcmp(char *s1, char *s2);
 
-#endif /*MAIN_H*/
+#endif /*_MONTY_H_*/
