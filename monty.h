@@ -3,81 +3,89 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <string.h>
-#include <ctype.h>
+#include <stddef.h>
+#define STACK 0
+#define QUEUE 1
+#define DELIMS "\n\t\a\b "
 
+extern char **op_tok;
 
 /**
- * struct stack_s - doubly linked list for stacks and queues
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
  *
- * @n: reps an integer
- * @prev: pointer to the previous of element on the stack 
- * @next: pointer to the next element on the stack or queue
- *
- * @Description: doubly linked list data structure
- * for stacks and queue
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct stack_s
 {
-	int n;
-	struct stack_s *prev;
-	struct stack_s *next;
+        int n;
+        struct stack_s *prev;
+        struct stack_s *next;
 } stack_t;
-#define STACK 0
-#define QUEUE 1
 
 /**
- * struct instruction_s - opcode and and its function
+ * struct instruction_s - opcode and its function
  * @opcode: the opcode
- * @func: function for the opcode
- * Description: opcode and its function for stck and queues
+ * @f: function to handle the opcode
+ *
+ * Description: opcode and its function
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct instruction_s
 {
-	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
+        char *opcode;
+        void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-/**
- * struct variable - contains main variable
- *
- * @flag: determines stack or queue mode
- * @len: stack length
- */
-typedef struct variable
-{
-	int flag;
-	size_t len;
-} variable_t;
-extern variable_t var;
-
-void freeline(int current, void *head);
-void push_element(stack_t **stack, unsigned int line_number);
-stack_t *add_node(stack_t **stack, const int n);
-void _queue(stack_t **stack, unsigned int line_number);
-void _stack(stack_t **stack, unsigned int line_number);
-void _fclose(int current, void *head)
-void free_stack(int current, void *head);
-void pop_func(stack_t **stack, unsigned int line_number);
-void add_func(stack_t **stack, unsigned int line_number);
-void exec(char *content, stack_t **stack, unsigned int counter, FILE *file);
-static int check_digit(char *str);
-void pall_func(stack_t **stack, unsigned int line_number);
-void div_func(stack_t **stack, unsigned int line_number);
-void nop_func(stack_t **stack, unsigned int line_number);
-void pchar_func(stack_t **stack, unsigned int line_number);
-void pstr_func(stack_t **stack, unsigned int line_number);
-void rotr_func(stack_t **stack, unsigned int line_number);
-void stack_func(stack_t **stack, unsigned int line_number);
-void pint_func(stack_t **stack, unsigned int line_number);
-void swap_func(stack_t **stack, unsigned int line_number);
-void add_node(stack_t **stack, int n);
-void rotl_func(stack_t **stack, unsigned int line_number);
-void mod_func(stack_t **stack, unsigned int line_number);
-void sub_func(stack_t **stack, unsigned int line_number);
-void mul_func(stack_t **stack, unsigned int line_number);
-int _atoi(char *s);
-int _strcmp(char *s1, char *s2);
-
-#endif /*_MONTY_H_*/
+void f_push(stack_t **stack, unsigned int line_number);
+int malloc_error(void);
+int int_error(unsigned int line_number);
+int usage_error(void);
+int open_error(char *filename);
+int op_error(char *op_code, int line_number);
+int error_pchar(unsigned int line_number, char *op);
+int error_div(unsigned int line_number);
+int short_stack(unsigned int line_number, char *op);
+int error_pint(unsigned int line_number);
+int error_pop(unsigned int line_number);
+void f_swap(stack_t **stack, unsigned int line_number);
+void f_pall(stack_t **stack, unsigned int line_number);
+void f_pint(stack_t **stack, unsigned int line_number);
+void f_pop(stack_t **stack, unsigned int line_number);
+void f_pstr(stack_t **stack, unsigned int line_number);
+void f_pchar(stack_t **stack, unsigned int line_number);
+void f_nop(stack_t **stack, unsigned int line_number);
+void f_queue(stack_t **stack, unsigned int line_number);
+void f_stack(stack_t **stack, unsigned int line_number);
+void f_rotr(stack_t **stack, unsigned int line_number);
+void f_rotl(stack_t **stack, unsigned int line_number);
+void f_mod(stack_t **stack, unsigned int line_number);
+void f_mul(stack_t **stack, unsigned int line_number);
+void f_div(stack_t **stack, unsigned int line_number);
+void f_sub(stack_t **stack, unsigned int line_number);
+void f_add(stack_t **stack, unsigned int line_number);
+void fill_number_buff(unsigned int num, unsigned int base, char *buff, int buff_size);
+int get_len(unsigned int num, unsigned int base);
+unsigned int _abs(int i);
+char *get_int(int number);
+char *get_next_word(char *str, char *delim);
+int get_count(char *str, char *delim);
+int get_count_length(char *str, char *delim);
+int _isdelim(char cha, char *delim);
+char **strtow(char *_str, char *delim);
+int check_mode(stack_t *stack);
+int inti_stack(stack_t **stack);
+void free_stack(stack_t **stack);
+void set_op_error(int err);
+int file_func(FILE *fd);
+int empty_line(char *line, char *delim);
+void free_tok(void);
+unsigned int token_len(void);
+#endif

@@ -1,27 +1,53 @@
 #include "monty.h"
-
 /**
- * pchar_func - prints the char at the top of the stack,
- * followed by a new line
- *
- * @stack: double pointerto the linked list
- * @line_number: line number
+ * f_nop - doesn’t do anything
+ * @stack: pointer to the first node
+ * @line_number: line number of the list
  * Return: nothing
  */
-
-void pchar_func(stack_t **stack, unsigned int line_number)
+void f_nop(stack_t **stack, unsigned int line_number)
 {
-	stack_t *h = *stack;
+	(void)stack;
+	(void)line_number;
+}
+/**
+ * f_pchar - prints the char at the top of the stack, followed by a
+ * new line
+ * @stack: pointer to the first node
+ * @line_number: line number of the list
+ * Return: nothing
+ */
+void f_pchar(stack_t **stack, unsigned int line_number)
+{
+	if ((*stack)->next == NULL)
+	{
+		set_op_error(error_pchar(line_number, "stack empty"));
+		return;
+	}
+	if ((*stack)->next->n < 0 || (*stack)->next->n > 127)
+	{
+		set_op_error(error_pchar(line_number, "valuee out of range"));
+		return;
+	}
+	printf("%c\n", (*stack)->next->n);
+}
+/**
+ * f_pstr - prints the string starting at the top of the stack
+ * followed by a new line.
+ *
+ * @stack: pointer to the first node
+ * @line_number: line number of the list
+ * Return: nothing
+ */
+void f_pstr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp = (*stack)->next;
 
-	if (h == NULL)
+	while (tmp && tmp->n !=  0 && (tmp->n > 0 && tmp->n <= 127))
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
+		printf("%c", tmp->n);
+		tmp = tmp->next;
 	}
-	if (h->n > 127 || h->n < 0)
-	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	printf("%c\n", h->n);
+	printf("\n");
+	(void)line_number;
 }

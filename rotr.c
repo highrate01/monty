@@ -1,25 +1,75 @@
 #include "monty.h"
-
 /**
- * rotr_func - rotates the stack to the bottom
- * @stack: double pointer to the stack
- * @line_number: line number
+ * f_rotl - rotates the stack to the top.
+ *
+ * @stack: pointer to the first node of the stack
+ * @line_number: line number of the list
  * Return: nothing
  */
-void rotr_func(stack_t **stack, unsigned int line_number)
+void f_rotl(stack_t **stack, unsigned int line_number)
 {
-	(void)unsigned int line_number;
-	stack_t *copy;
+	stack_t *upper, *lower;
+	(void)line_number;
 
-	copy = *stack;
-
-	if (*stack == NULL || (*stack)->next == NULL)
+	if ((*stack)->next == NULL || (*stack)->next == NULL)
 		return;
-	while (copy->next)
-		copy = copy->next;
-	copy->next = *stack;
-	copy->prev->next = NULL;
-	copy->prev = copy;
-	(*stack)->prev = copy;
-	(*stack) = copy;
+	upper = (*stack)->next;
+	lower = (*stack)->next;
+	while (lower->next != NULL)
+		lower = lower->next;
+	upper->next->prev = *stack;
+	(*stack)->next = upper->next;
+	lower->next = upper;
+	upper->next = NULL;
+	upper->prev = lower;
+}
+/**
+ * f_rotr - rotates the stack to the bottom
+ *
+ * @@stack: pointer to the first node of the stack
+ * @line_number: line number of the list
+ * Return: nothing
+ */
+void f_rotr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *upper, *lower;
+	(void)line_number;
+
+	if ((*stack)->next == NULL || (*stack)->next->next == NULL)
+		return;
+
+	upper = (*stack)->next;
+	lower = (*stack)->next;
+
+	while (lower->next != NULL)
+		lower = lower->next;
+	lower->prev->next = NULL;
+	(*stack)->next = lower;
+	lower->prev = *stack;
+	lower->next = upper;
+	upper->prev = lower;
+}
+/**
+ * f_stack - sets the format of the data to a stack (LIFO)
+ *
+ * @stack: pointer to the first node of the stack
+ * @line_number: line number of the list
+ * Return: nothing
+ */
+void f_stack(stack_t **stack, unsigned int line_number)
+{
+	(*stack)->n = STACK;
+	(void)line_number;
+}
+/**
+ * f_queue - convert stack to queue
+ *
+ * @stack: pointer to the first node of the stack
+ * @line_number: line number of the list
+ * Return: nothing
+ */
+void f_queue(stack_t **stack, unsigned int line_number)
+{
+	(*stack)->n = QUEUE;
+	(void)line_number;
 }

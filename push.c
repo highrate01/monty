@@ -1,45 +1,57 @@
 #include "monty.h"
-/**
- * check_digit - check for digit
- * @str: pointer to string
- * Return: 0 if true, otherwise 1
- */
-static int check_digit(char *str)
-{
-	int j;
 
-	for (j = 0; str[j]; j++)
+/**
+ * f_push - pushes an element to the stack
+ *
+ * @stack: double pointer to the beginning of the node
+ * @line_number: current line number of the list
+ * */
+void f_push(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp, *new;
+	int i;
+
+	new = (stack_t *) malloc(sizeof(stack_t));
+
+	if (new == NULL)
 	{
-		if (str[j] == '-' && j == 0)
+		set_op_error(malloc_error());
+		return;
+	}
+	if (op_tok[1] == NULL)
+	{
+		set_op_error(int_error(line_number));
+			return;
+	}
+	for (i = 0; op_tok[1][i]; i++)
+	{
+		if (op_tok[1][i] == '-' && i == 0)
 			continue;
-		if (isdigit(str[j]) == 0)
-			return (1);
+		if (op_tok[1][i] < '0' || op_tok[1][i] > '9')
+		{
+			set_op_error(int_error(line_number));
+			return;
+		}
 	}
-	return (0);
-}
+	new->n = atoi(op_tok[1]);
 
-/**
- * push_element - add element to the stack
- * @stack: pointer to the first element
- * @line_number: count
- * Return: no return
- */
-void push_element(stack_t **stack, unsigned int line_number)
-{
-	char *line;
-	int n;
+	if (check_mode(*stack) == STACK)
+	{
+		tmp = (*stack)->next;
+		new->prev = *stack;
+		new->next = tmp;
+		if (tmp)
+			tmp->prev = new;
+		(*stack)->next = new;
+	}
+	else
+	{
+		tmp = *stack;
 
-	line = strtok(NULL, "\n\t\r ");
-	if (line == NULL || check_digit(line))
-	{
-		dprintf(STDOUT_FILENO, "L%u: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
+		while (tmp->next)
+			tmp = tmp->next;
+		new->prev = tmp;
+		new->next = NULL;
+		tmp->next = new;
 	}
-	n = atoi(line);
-	if (!add_node(stack, n))
-	{
-		dprintf(STDOUT_FILENO, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-	var.len++;
 }
